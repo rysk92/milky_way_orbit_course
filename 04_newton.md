@@ -11,7 +11,7 @@
 
 以下のような二次関数があったとします
 
-![](https://latex.codecogs.com/gif.latex?y%20%3D%20x%5E2%20&plus;%20x%20&plus;%201)
+![](./images/4_m_1.svg)
 
 この関数をグラフで描画すると、以下のようになります。
 
@@ -45,16 +45,16 @@ x=0.25のときは、y=1.3125です。変化の割合は1.25です。
 
 微分の操作は簡単に行うことが出来ます。
 
-![](https://latex.codecogs.com/gif.latex?y%20%3D%20x%5E2%20&plus;%20x%20&plus;%201)
+![](./images/4_m_1.svg)
 
 の関数があった場合、それぞれの次数(2乗、3乗など)を1つ引いて、元々の次数をそれぞれの項に掛けるだけです。
 この操作により求められた関数を導関数と呼び、以下のように記述します。
 
-![](https://latex.codecogs.com/gif.latex?y%27%20%3D%202x%20&plus;%201)
+![](./images/4_m_2.svg)
 
 または以下のように記述する場合もあります。
 
-![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Cmathrm%7Bd%7D%20y%7D%7B%5Cmathrm%7Bd%7D%20x%7D%20%3D%202x%20&plus;%201)
+![](./images/4_m_3.svg)
 
 この関数を使うことで、x時点のの瞬間的な変化の割合を求めることが出来ます。
 
@@ -67,7 +67,7 @@ x = 0のとき、y' = 1 になるので、先程検証した数と同じにな�
 xの変化量が限りなく0に近くなったとすると、hを変化量として以下のような式を考えることが出来ます。
 
 
-![](https://latex.codecogs.com/gif.latex?y%27%3D%20%5Clim_%7Bh%5Crightarrow0%7D%20%5Cfrac%7B%28x&plus;h%29%5E2%20&plus;%20%28x&plus;h%29%20&plus;%201%20-%20%28x%5E2%20&plus;%20x%20&plus;%201%29%7D%7Bh%7D%5C%5C%20%3D%20%5Clim_%7Bh%5Crightarrow0%7D%20%5Cfrac%7Bx%5E2&plus;2xh&plus;h%5E2&plus;x&plus;h&plus;1-x%5E2-x-1%7D%7Bh%7D%5C%5C%20%3D%20%5Clim_%7Bh%5Crightarrow0%7D%20%5Cfrac%7B2xh&plus;h%5E2&plus;h%7D%7Bh%7D%5C%5C%20%3D%20%5Clim_%7Bh%5Crightarrow0%7D%202x&plus;h&plus;1%5C%5C%20%3D%202x&plus;1)
+![](./images/4_m_4.svg)
 
 最終的にhは0になるので、残った 2x+1が導関数ということになります。
 
@@ -78,7 +78,7 @@ xの変化量が限りなく0に近くなったとすると、hを変化量と�
 
 問題の起点として、コンピューターを利用して、
 
-![](https://latex.codecogs.com/gif.latex?0%20%3D%20x%5E2%20&plus;%203x%20&plus;%201)
+![](./images/4_m_5.svg)
 
 を満たす x の近似値を求めたいとします。グラフで見る限り -1 と 0 の間にありそうです。
 
@@ -87,9 +87,9 @@ xの変化量が限りなく0に近くなったとすると、hを変化量と�
 この時、以下の方法で求めることができます。
 
 1. 適当な値を決めてxとする。例) x=0
-2. 方程式の右辺を関数f(x)として、その導関数f'(x)を作る。例) ![2x+3](https://latex.codecogs.com/gif.latex?2x&plus;3)
+2. 方程式の右辺を関数f(x)として、その導関数f'(x)を作る。例) 2x + 3
 3. f(x) / f'(x) を求める。 例)
-   ![](https://latex.codecogs.com/gif.latex?%28x%5E2&plus;3x&plus;1%29%20/%20%282x&plus;3%29)
+   ![](./images/4_m_6.svg)=
    0.333.. が求まる
 4. 最初に決めた値から 3で求めた値を引き、新たなxとする 例) 0 - 0.333.. = -0.333
 5. 4で求めた新しいxを使い、3〜5の操作を繰り返す。この操作は、前回の計算結果の差が小さくなるまで十分な回数繰り返す。

@@ -76,7 +76,7 @@ ABの長さ = c
 
 sin関数ははθを値として、a/c を値を求めるものです。
 
-![](https://latex.codecogs.com/gif.latex?%5Csin%5Ctheta%20%3D%20%5Cfrac%7Ba%7D%7Bc%7D)
+![](./images/3_m_1.svg)
 
 で表されます。
 
@@ -87,7 +87,7 @@ sin関数ははθを値として、a/c を値を求めるものです。
 
 cos関数は
 
-![](https://latex.codecogs.com/gif.latex?%5Ccos%5Ctheta%20%3D%20%5Cfrac%7Bb%7D%7Bc%7D)
+![](./images/3_m_2.svg)
 
 で表されます。
 
@@ -108,7 +108,7 @@ y' = x sin θ + y cos θ
 
 tan関数は
 
-![](https://latex.codecogs.com/gif.latex?%5Ctan%5Ctheta%20%3D%20%5Cfrac%7Ba%7D%7Bb%7D)
+![](./images/3_m_3.svg)
 
 で表されます。
 
@@ -123,7 +123,7 @@ a/b から、逆に角度を求めたい場合は、tan関数の逆関数を使�
 
 以下のように表記する場合もあります。
 
-![](https://latex.codecogs.com/gif.latex?%5Ctan%5E%7B-1%7D%5Ctheta)
+![](./images/3_m_4.svg)
 
 この関数は、2つの惑星の座標から、角度を求めるときなどに便利です。
 

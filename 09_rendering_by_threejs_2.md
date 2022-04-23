@@ -1,0 +1,269 @@
+# Three.js での描画 (2)
+
+前回は、Three.js での基本的な描画を取り扱いました。
+この章では、1〜7章で学んだ知識を元に、太陽、水星、地球の位置を計算し、球体を書き出すプログラムを作ります。
+
+前回と同じように、プログラムを作るにあたって、HTMLファイルを作ります。
+
+```html
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sample1</title>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<div id="target"></div>
+<div id="time"></div>
+<script>
+  // ここにスクリプトを記載
+</script>
+</body>
+</html>
+```
+
+## 惑星クラスの作成
+
+それぞれの惑星には、軌道要素のためのデータがあることは6章で学びました。
+その惑星ごとにまとめて管理するための、惑星クラスを作成しましょう。
+
+```js
+class Planet {
+  // config1 はJ2000.0時点の軌道要素を配列で指定
+  // 0: a    軌道長半径 au
+  // 1: e    離心率
+  // 2: I    軌道傾斜角 rad
+  // 3: L    平均経度 rad
+  // 4: peri 近日点経度 rad
+  // 5: node 昇交点経度 rad
+
+  // config2 はユリウス世紀数ごとの軌道要素の変化量を配列で指定
+  // 0: a    軌道長半径 au
+  // 1: e    離心率
+  // 2: I    軌道傾斜角 rad
+  // 3: L    平均経度 rad
+  // 4: peri 近日点経度 rad
+  // 5: node 昇交点経度 rad
+
+  // config3 は配列で指定 (省略可能で、木星から冥王星のみに利用)
+  // 0: b    M のT^2係数
+  // 1: c    M のcos()の係数
+  // 2: s    M のsin()の係数
+  // 3: f    M のcos(),sin()のTの係数
+  constructor (name, config1, config2, config3 = null) {
+    this.name = name;
+    this.config1 = config1;
+    this.config2 = config2;
+    this.config3 = config3;
+  }
+}
+```
+
+## 数値変換用の関数の用意
+
+2章、3章で扱った単位系の変換用の関数を用意します。
+
+```js
+// 度数法からラジアンへ
+function degToRad(deg) {
+  return (deg * Math.PI) / 180;
+}
+
+// Dateオブジェクトからユリウス日へ
+function dateToJulian(date) {
+  return date.getTime() / 86400000 + 2440587.5;
+}
+
+// ユリウス日から、ユリウス世紀数へ
+function dateToJulianCentury(date) {
+  return (dateToJulian(date) - 2451545.0) / 36525;
+}
+```
+
+## 軌道要素の計算関数の用意
+
+5章、6章で扱った各軌道要素を、惑星のデータとDateオブジェクトから求める関数を作ります。
+
+
+```js
+function calculateOrbitalElement(date, planet) {
+  // ユリウス世紀数
+  const t = dateToJulianCentury(date);
+  // 軌道長半径 au
+  const a = planet.config1[0] + planet.config2[0] * t;
+  // 離心率
+  const e = planet.config1[1] + planet.config2[1] * t;
+  // 軌道短半径 au
+  const b = a * Math.sqrt(1 - e * e)
+  // 軌道傾斜角 rad
+  const incl = planet.config1[2] + planet.config2[2] * t;
+  // 平均経度 rad
+  const l = planet.config1[3] + planet.config2[3] * t;
+  // 近日点経度 rad
+  const varpi = planet.config1[4] + planet.config2[4] * t;
+  // 昇交点経度 rad
+  const node = planet.config1[5] + planet.config2[5] * t;
+  // 近日点引数 rad
+  const peri = varpi - node
+  // 平均近点角 rad
+  let m = l - varpi
+  // 太陽から見て木星より遠い惑星のための補正計算
+  // https://ssd.jpl.nasa.gov/planets/approx_pos.html に詳細が記載してある
+  if (planet.config3) {
+    m += planet.config3[0] * (t * t)
+    if (planet.config3.length >= 1) {
+      const fT = planet.config3[1] * t;
+      m += planet.config3[1] * Math.cos(fT) + planet.config3[3] * Math.sin(fT)
+    }
+  }
+
+  return {
+    a,
+    e,
+    b,
+    incl,
+    l,
+    varpi,
+    node,
+    peri,
+    m
+  }
+}
+```
+
+## 軌道要素から黄道座標への変換
+
+7章で扱った軌道要素から、3Dの座標への変換を行うための実装を行います。
+
+```js
+function calculatePoint(element) {
+  const cos_I = Math.cos(element.incl)
+  const sin_I = Math.sin(element.incl)
+  const cos_Node = Math.cos(element.node)
+  const sin_Node = Math.sin(element.node)
+  const cos_Peri = Math.cos(element.peri)
+  const sin_Peri = Math.sin(element.peri)
+
+  let deltaE = null
+  let E = element.m
+  do {
+    deltaE = (E - element.e * Math.sin(E) - element.m) / (1 - element.e * Math.cos(E))
+    E -= deltaE
+  } while (deltaE < -0.000001 || 0.000001 < deltaE)
+
+  const prime = {
+    x: element.a * (Math.cos(E) - element.e),
+    y: element.b * Math.sin(E)
+  }
+
+  return {
+    x: (cos_Peri * cos_Node - sin_Peri * sin_Node * cos_I) * prime.x + (-sin_Peri * cos_Node - cos_Peri * sin_Node * cos_I) * prime.y,
+    y: (cos_Peri * sin_Node + sin_Peri * cos_Node * cos_I) * prime.x + (-sin_Peri * sin_Node + cos_Peri * cos_Node * cos_I) * prime.y,
+    z: (sin_Peri * sin_I) * prime.x + (cos_Peri * sin_I) * prime.y
+  }
+}
+```
+
+## Three.jsを利用したレンダリング
+
+今まで用意した関数を使い実際に画面上に惑星の位置を表示させるプログラムを書きます。
+
+2015年1月31日 9:00(日本時間)を基準として、50ミリ秒ごとに1日経過させ水星・地球の位置を画面上に
+表示させる挙動としています。
+
+```js
+const width = 800;
+const height = 600;
+// 1AUをThree.jsの座標上どのくらいの大きさとして扱うか
+// 50であれば 1AUを50として扱う
+const zoom = 50;
+
+// 8章と同じため説明は省略
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(width, height);
+document.getElementById('target').appendChild(renderer.domElement);
+
+// 太陽用メッシュを用意
+// デフォルトでは、直行系座標の x=0,y=0,z=0 に配置される
+// 色は赤 (#FF0000) とする
+const sunMesh = new THREE.Mesh(
+  new THREE.SphereGeometry(2, 16, 8),
+  new THREE.MeshBasicMaterial({color: 0xff0000})
+);
+scene.add(sunMesh);
+
+// 水星のデータを用意
+const mercury = new Planet(
+  'Mercury',
+  [0.38709927, 0.20563593, degToRad(7.00497902), degToRad(252.25032350), degToRad(77.45779628), degToRad(48.33076593)],
+  [0.00000037, 0.00001906, degToRad(-0.00594749), degToRad(149472.67411175), degToRad(0.16047689), degToRad(-0.12534081)]
+);
+// 水星用メッシュを用意
+// 色はグリーン (#00FF00)
+const mercuryMesh = new THREE.Mesh(
+  new THREE.SphereGeometry(1, 16, 8),
+  new THREE.MeshBasicMaterial({color: 0x00ff00})
+);
+scene.add(mercuryMesh);
+
+// 地球のデータを用意
+const earth = new Planet(
+  'Earth',
+  [1.00000261, 0.01671123, degToRad(-0.00001531), degToRad(100.46457166), degToRad(102.93768193), degToRad(0)],
+  [0.00000562, -0.00004392, degToRad(-0.01294668), degToRad(35999.37244981), degToRad(0.32327364), degToRad(0)]
+);
+// 地球のメッシュを用意
+// 色はシアン (#00FFFFF)
+const earthMesh = new THREE.Mesh(
+  new THREE.SphereGeometry(1, 16, 8),
+  new THREE.MeshBasicMaterial({color: 0x00ffff})
+);
+scene.add(earthMesh);
+
+// 2015-01-31 09:00:00 をベースとする
+const date = new Date('2015-01-31 09:00:00');
+let i = 0;
+// 50ミリ秒ごとに、1日ずつ進めてmeshの位置を変更する
+setInterval(function () {
+  // 日付を1日送る
+  const d = new Date(date.getTime() + i * 24 * 60 * 60 * 1000)
+
+  // 水星の位置を計算
+  const mercuryPoint = calculatePoint(calculateOrbitalElement(d, mercury));
+
+  // 水星のメッシュの位置を変更
+  // 黄道座標系をThree.js用の直行系座標系にするため、z座標はy座標として、y座標はz座標にする
+  // また、黄道座標系の計算では、奥側が+だが、Three.js は手前が+のためz座標は、-1をかけて正負を逆転させる
+  // zoom は、1AUを zoom として扱うためにかける。
+  mercuryMesh.position.set(mercuryPoint.x * zoom, mercuryPoint.z * zoom, mercuryPoint.y * zoom * -1)
+
+  const earthPoint = calculatePoint(calculateOrbitalElement(d, earth));
+  earthMesh.position.set(earthPoint.x * zoom, earthPoint.z * zoom, earthPoint.y * zoom * -1);
+  i++;
+  document.getElementById('time').innerText = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`
+}, 50);
+
+
+// カメラは上方向200, 手前方向200の位置に配置
+camera.position.set(0, 200, 200);
+// シーンの中央にカメラを向ける
+camera.lookAt(scene.position);
+
+// 
+function animate() {
+  // 現在のメッシュの状態でレンダリングを行う
+  renderer.render(scene, camera);
+  
+  // ブラウザにアニメーションを行いたいことを知らせる
+  // https://developer.mozilla.org/ja/docs/Web/API/Window/requestAnimationFrame
+  window.requestAnimationFrame(animate);
+}
+animate();
+```
+
+[デモ](sample/sample09_01.html)
+
+これで軌道計算のプログラムが動きました。
+他の惑星も追加して、太陽系を動かしてみましょう。

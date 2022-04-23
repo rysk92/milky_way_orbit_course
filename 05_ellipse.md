@@ -20,21 +20,21 @@
 
 r = 半径
 
-![x^2 + y^2 = r^2](https://latex.codecogs.com/gif.latex?x%5E2%20&plus;%20y%5E2%20%3D%20r%5E2%)
+![x^2 + y^2 = r^2](./images/5_m_1.svg)
 
 OS X に標準に付属する Grapher に数式を入れて確かめましょう。半径1の場合はr = 1となり、
 
-![x^2 + y^2 = r^2](https://latex.codecogs.com/gif.latex?x%5E2%20&plus;%20y%5E2%20%3D%201)
+![x^2 + y^2 = r^2](./images/5_m_1.svg)
 
 という方程式となります。例えば、xが1の場合、
 
-![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bcenter%7D%201%20&plus;%20y%5E2%20%3D%201%5C%5C%20y%5E2%20%3D%201%20-%201%5C%5C%20y%5E2%20%3D%200%5C%5C%20y%20%3D%200%20%5Cend%7Bcenter%7D)
+![](./images/5_m_2.svg)
 
 となります。
 
 xが0.5の場合は、
 
-![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bcenter%7D%200.25%20&plus;%20y%5E2%20%3D%201%5C%5C%20y%5E2%20%3D%201%20-%200.25%5C%5C%20y%5E2%20%3D%200.75%5C%5C%20y%20%3D%20%5Csqrt%7B0.75%7D%5C%5C%20y%20%3D%20%5Cpm%200.866%20%5Cend%7Bcenter%7D)
+![](./images/5_m_3.svg)
 
 となり、プラスとマイナスに2点とります。
 
@@ -65,7 +65,7 @@ a = 半長径: 原点から見て長い方の半径
 
 b = 半短経: 原点から見て短い方の半径
 
-![\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1](https://latex.codecogs.com/gif.latex?%5Cfrac%7Bx%5E2%7D%7Ba%5E2%7D%20&plus;%20%5Cfrac%7By%5E2%7D%7Bb%5E2%7D%20%3D%201)
+![\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1](./images/5_m_4.svg)
 
 a = 2, b = 1 の場合は以下のようになります。
 
@@ -79,7 +79,7 @@ e = 楕円の中心と焦点(太陽)とのズレ / a
 
 楕円の法則から、 e は以下のように表すこともできます。
 
-![b / a = √(1 - e^2)](https://latex.codecogs.com/gif.latex?%5Cfrac%7Bb%7D%7Ba%7D%20%3D%20%5Csqrt%7B1%20-%20e%5E2%7D)
+![b / a = √(1 - e^2)](./images/5_m_5.svg)
 
 ### 動径・真近点角
 
@@ -98,19 +98,19 @@ e = 楕円の中心と焦点(太陽)とのズレ / a
 
 動径と、真近点角の間には以下の関係があります。
 
-![](https://latex.codecogs.com/gif.latex?%5Cleft%5C%7B%5Cbegin%7Bmatrix%7D%20x%20%3D%20ae%20%5Ccos%20v%20%5C%5C%20y%20%3D%20r%20%5Csin%20v%20%5Cend%7Bmatrix%7D%5Cright.)
+![](./images/5_m_6.svg)
 
 また、この式を楕円の方程式に代入すると
 
-![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%28xe%20&plus;%20r%5Ccos%20v%29%5E2%7D%7Ba%5E2%7D%20&plus;%20%5Cfrac%7Br%5E2%5Csin%5E2%20v%7D%7Ba%5E2%281-e%5E2%29%7D)
+![](./images/5_m_7.svg)
 
 となります
 
 この式を更に変換すると
 
-![](https://latex.codecogs.com/gif.latex?%5Cmathit%7Bp%7D%20%3D%20a%281%20-%20e%5E2%29) として
+![](./images/5_m_8.svg) として
 
-![](https://latex.codecogs.com/gif.latex?r%20%3D%20%5Cfrac%7B%20%5Cmathit%7Bp%7D%7D%7B1&plus;%5Ccos%20v%7D)
+![](./images/5_m_9.svg)
 
 を求めることができます。ここでの p は **半通経** と呼びます。
 
@@ -118,18 +118,18 @@ v = 90°, 270° (-90°) の場合は、p = r になります。
 
 v = 0° の動径をqとすると
 
-![](https://latex.codecogs.com/gif.latex?e%20%5Ccos%200%5E%7B%5Ccirc%7D%20%3D%20e) となるため
+![](./images/5_m_10.svg) となるため
 
-![](https://latex.codecogs.com/gif.latex?q%20%3D%20%5Cfrac%7Ba%281%20-%20e%5E2%29%7D%7B1%20&plus;%20e%7D%20%3D%20a%281-e%29)
+![](./images/5_m_11.svg)
 
 となり、焦点(太陽)との距離が最も近い距離となります。これを **近日点距離** と呼びます。(この時の惑星の点を **近日点** ) と呼びます。
 先程利用した離心率0.5の例を利用すると、近日点距離は1ということになります。
 
 逆に、反対側の最も遠くなる点 v = 180° の場合
 
-![](https://latex.codecogs.com/gif.latex?e%20%5Ccos%20180%5E%7B%5Ccirc%7D%20%3D%20-e) となるため
+![](./images/5_m_12.svg) となるため
 
-![](https://latex.codecogs.com/gif.latex?Q%20%3D%20%5Cfrac%7Ba%281-e%5E2%29%7D%7B1-e%7D%20%3D%20a%281&plus;e%29)
+![](./images/5_m_13.svg)
 
 となります。これを遠日点距離と呼びます。今回の例だと、3ということになります。
 
@@ -144,38 +144,36 @@ v = 0° の動径をqとすると
 
 この時、前章で説明した回転の式から以下の式が成り立ちます。
 
-- ![P_1 P_2 = a \sin E](https://latex.codecogs.com/gif.latex?P_1P_2%3Da%20%5Csin%20E)
-- ![](https://latex.codecogs.com/gif.latex?PP_1%20%3D%20r%20%5Csin%20%20v) 
+- ![P_1 P_2 = a \sin E](./images/5_m_14.svg)
+- ![P P_1 = r \sin v](./images/5_m_15.svg) 
 
 離心近点角(E)から、惑星Sのx, y の座標を求めたいとします。
 
 この場合、P<sub>1</sub>P<sub>2</sub>と、P P<sub>1</sub> の比率から導き出すことができます。
 
-![](https://latex.codecogs.com/gif.latex?%5Cfrac%7Br%20%5Csin%20v%7D%7Ba%20sin%20E%7D)
+![](./images/5_m_16.svg)
 
 
-E = 90°の場合は、r sin v は、半短径bと同じになるので、![](https://latex.codecogs.com/gif.latex?r%20%5Csin%2090%20%5E%7B%5Ccirc%7D%3D%20b%20%3D%20a%20%5Csqrt%7B1%20-%20e%5E2%7D) 
+E = 90°の場合は、r sin v は、半短径bと同じになるので、![](./images/5_m_17.svg) 
 となります。一方で、 a sin E は、 sin 90° = 1 なので、aとなります。
 
 従って、
 
-
-![](https://latex.codecogs.com/gif.latex?%5Cfrac%7Br%20%5Csin%20v%7D%7Ba%20%5Csin%20v%7D%20%3D%20%5Cfrac%7Ba%5Csqrt%7B1-e%5E2%7D%7D%7Ba%7D%20%3D%20%5Csqrt%7B1-e%5E2%7D)
+![](./images/5_m_18.svg)
 
 になります。この式からEからPのy座標を求める場合は 
 
-![](https://latex.codecogs.com/gif.latex?y%20%3D%20r%20%5Csin%20v%20%3D%20a%5Csqrt%7B1%20-%20e%5E2%7D%20%5Csin%20E])
+![](./images/5_m_19.svg)
 
+x座標を求める場合は、動径と、真近点角の式から
 
-x座標を求める場合は、図から OAからE度回転したx座標を求めればよいので、
-
-![](https://latex.codecogs.com/gif.latex?x%20%3D%20a%20%5Ccos%20E)
+![](./images/5_m_20.svg)
 
 により求めることができます。
 
 まとめると
 
-![](https://latex.codecogs.com/gif.latex?%5Cleft%5C%7B%5Cbegin%7Bmatrix%7Dx%20%3D%20a%20%5Ccos%20E%20%5C%5C%20y%20%3D%20a%20%5Csqrt%7B1%20-%20e%5E2%7D%5Csin%20E%20%5Cend%7Bmatrix%7D%5Cright.)
+![](./images/5_m_21.svg)
 
 となります。この式は後にEから惑星の位置を計算する時に利用します。
 
